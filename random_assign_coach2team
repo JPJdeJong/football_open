@@ -55,13 +55,15 @@ if __name__ == '__main__':
     # fill all the teams you want to assign.
     teams = ['U13-1','U13-2','U15-2','U15-1','U17-2',]
     
-    # which coaches need to be assigned.
     print(str('Do you only want to assign the head coaches or all coaches randomly? \
               Type: "all" or "head":'))
     which_coaches = str(input())
-    if which_coaches == 'all':
+    if which_coaches == 'all' or 'All' or 'ALL':
         coaches = coaches_all
-    elif which_coaches == 'head':
+        random_assign_coach_to_team(len(coaches), teams, coaches)
+    elif which_coaches == 'head' or 'Head' or 'HEAD':
         coaches = coaches_main
-    # Assign coaches to teams and print.
-    random_assign_coach_to_team(len(coaches), teams, coaches)
+        random_assign_coach_to_team(len(coaches), teams, coaches)
+    else:
+        print(str('Wrong input, run script again'))
+        pass
