@@ -1,0 +1,67 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jan  8 21:49:09 2020
+
+@author: JP
+"""
+
+import numpy as np
+import pandas as pd
+import random
+from itertools import accumulate
+
+def random_assign_coach_to_team(n, g, names = None):
+    """
+    A function to randomly assign coaches to teams for a training session. With an equal distribution
+    Args:
+        n: integer. The amount of coaches that need to be assigned
+        g: an integer with the amount of groups. 
+        names: a list of names, with the list of the coaches. ['Coach A', 'Assistant A'.....]
+    Returns:
+        Group: [names] (size). The groups with the assigned coaches.
+    """
+    # Prepare group separators
+    n_int = n
+    g_int = len(g)
+    size = n_int // g_int
+    rem = n_int % g_int
+    separators = list(accumulate([0] + [size+1] * rem + [size] * (g_int - rem)))
+    # Make raw data
+    # if names are not given.
+    if names == None:
+        items = list(range(n))
+        random.shuffle(items)
+    # if names are given.
+    else:
+        d = {ni: indi for indi, ni in enumerate(set(names))}
+        items = list(d.keys())
+        # Shuffle names
+        random.shuffle(items)
+    
+    # Iterate and print
+    for i, s in enumerate(zip(separators, separators[1:])):
+        group = items[slice(*s)]
+        print(f'Team {g[i]}: {group} (size {len(group)})')
+        
+if __name__ == '__main__':
+    #fill here all the names of the coaches
+    coaches_all = ['Head_Coach A', 'Head_Coach B','Head_Coach C','Head_Coach D','Head_Coach E', 'Assistant A1',\
+                    'Assistant A2',,'Assistant B1',,'Assistant C1',,'Assistant C2','Assistant D1','Assistant D2',\
+                    'Assistant D3',]
+                    
+    #fill here all the names of the head coaches
+    coach_main = ['Head_Coach A', 'Head_Coach B','Head_Coach C','Head_Coach D','Head_Coach E']
+    
+    # fill all the teams you want to assign.
+    teams = ['U13-1','U13-2','U15-2','U15-1','U17-2',]
+    
+    # which coaches need to be assigned.
+    print(str('Do you only want to assign the head coaches or all coaches randomly? \
+              Type: "all" or "head":'))
+    which_coaches = str(input())
+    if which_coaches == 'all':
+        coaches = coaches_all
+    elif which_coaches == 'head':
+        coaches = coaches_main
+    # Assign coaches to teams and print.
+    random_assign_coach_to_team(len(coaches), teams, coaches)
